@@ -1,15 +1,20 @@
 import numpy as np
 import tensorflow as tf
 from tensorflow.keras.models import Sequential
-from tensorflow.keras.layers import Dense
+from keras.layers import Dense, Input
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.optimizers import Adam, SGD, RMSprop
+from sklearn.model_selection import ParameterGrid, KFold
 from sklearn.model_selection import train_test_split
 from sklearn.svm import SVR
 from sklearn.metrics import mean_squared_error
 from sklearn.covariance import MinCovDet
 from math import comb
 from scipy import stats
+from sklearn.model_selection import GridSearchCV
+from sklearn.metrics import mean_squared_error
+from scikeras.wrappers import KerasRegressor  # Asegúrate de tener esta importación
+
 
 
 def detec_outliers(hw_matrix, percentil):
@@ -186,3 +191,53 @@ def train_svr_model(X, y, test_size=0.2, random_state=42, kernel='rbf', C=100, g
 
     return svm_model, mse, rmse, y_pred
 
+# Función de creación del modelo de red neuronal
+def create_model(neurons, hidden_layers, optimizer, n_features=3):
+    model = Sequential()
+    
+    # Usamos Input como la primera capa para especificar la forma de entrada
+    model.add(Input(shape=(n_features,)))  # Capa de entrada
+    
+    # Agregar capas ocultas
+    for _ in range(hidden_layers):
+        model.add(Dense(neurons, activation='relu'))
+    
+    # Capa de salida
+    model.add(Dense(1, activation='linear'))
+    
+    # Seleccionar optimizador
+    if optimizer == 'adam':
+        opt = 'adam'
+    else:
+        opt = 'sgd'
+    
+    model.compile(loss='mean_squared_error',
+                  optimizer=opt,
+                  metrics=['mae', 'mse'])
+    return model
+
+# Función de optimización de modelo con GridSearchCV
+def optimize_model(X, y, model_type='NN', param_grid=None, cv_folds=3):
+    if model_type == 'NN':
+        model = KerasRegressor(model=create_model, verbose=0)
+    elif model_type == 'SVR':
+        model = SVR()
+    else:
+        raise ValueError("Modelo no soportado. Utiliza 'NN' o 'SVR'.")
+
+    # Configuración de validación cruzada
+    kfold = KFold(n_splits=cv_folds)
+
+    # Convertir y a un vector unidimensional (para evitar el warning)
+    y = y.ravel()
+
+    # Ejecución de GridSearchCV con los hiperparámetros
+    grid = GridSearchCV(estimator=model, param_grid=param_grid, cv=kfold, verbose=1)
+    grid_result = grid.fit(X, y)
+
+    # Resultados del modelo
+    best_model = grid_result.best_estimator_
+    best_score = grid_result.best_score_
+    print(f"Mejor modelo: {best_model} con score: {best_score}")
+
+    return best_model, best_score

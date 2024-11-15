@@ -1,6 +1,6 @@
 Metadata-Version: 2.1
 Name: StadisticsML
-Version: 0.0.6
+Version: 1.0.0
 Summary: Librería para obtener valores estadísticos para pruebas de distribución de signos, determinación de outliers y pruebas Durbin-Watson
 Home-page: https://github.com/Guacen/StadisticsML.git
 Author: Jorge Eduardo Londoño Arango
@@ -11,63 +11,63 @@ Description-Content-Type: text/markdown
 
 # StadisticsML
 
-**StadisticsML** es una librería de Python diseñada para facilitar el uso de modelos de aprendizaje automático, específicamente redes neuronales y máquinas de soporte vectorial (SVR), con un enfoque en la predicción y análisis de datos. Esta librería permite al usuario crear modelos personalizables, ajustar hiperparámetros y obtener predicciones y evaluaciones del rendimiento.
+**StadisticsML** is a Python library designed to facilitate the use of machine learning models, specifically neural networks and Support Vector Regression (SVR), with a focus on data prediction and analysis. This library allows users to create customizable models, adjust hyperparameters, and obtain predictions and performance evaluations.
 
-## Características
+## Features
 
-- **Red Neuronal Personalizable**: Permite crear redes neuronales con múltiples capas y activaciones, especificar el número de épocas y la función de optimización.
-- **SVR**: Implementación de la máquina de soporte vectorial para regresión, con fácil ajuste de parámetros como el valor de `C`, `gamma` y `epsilon`.
-- **Evaluación de Modelos**: Genera métricas de rendimiento como el MSE y RMSE para evaluar la precisión de los modelos entrenados.
-- **Interfaz Sencilla**: Funciones fáciles de usar para entrenar modelos y hacer predicciones sobre datos nuevos.
+- **Customizable Neural Network**: Allows the creation of neural networks with multiple layers and activations, specifying the number of epochs and optimization function.
+- **SVR**: Implementation of Support Vector Regression, with easy adjustment of parameters like `C`, `gamma`, and `epsilon`.
+- **Model Evaluation**: Generates performance metrics such as MSE and RMSE to assess the accuracy of trained models.
+- **User-Friendly Interface**: Easy-to-use functions to train models and make predictions on new data.
 
-## Instalación
+## Installation
 
-Para instalar la librería, utiliza el siguiente comando de `pip`:
+To install the library, use the following `pip` command:
 
 ```bash
 pip install StadisticsML
 ```
 
-## Requisitos
+## Requirements
 
 - `numpy`
 - `scipy`
 - `scikit-learn`
 - `tensorflow`
   
-Estos paquetes se instalarán automáticamente como dependencias cuando instales **StadisticsML**.
+These packages will be installed automatically as dependencies when you install **StadisticsML**.
 
-## Funciones
+## Functions
 
-### 1. **Red Neuronal Personalizable** (`train_neural_network`)
+### 1. **Customizable Neural Network** (`train_neural_network`)
 
-Esta función permite al usuario crear y entrenar una red neuronal para regresión. Los parámetros ajustables incluyen:
+This function allows the user to create and train a neural network for regression. The adjustable parameters include:
 
-- **X**: Datos de entrada para el entrenamiento.
-- **y**: Etiquetas o resultados esperados.
-- **hidden_layers_config**: Configuración de las capas ocultas con el número de neuronas y funciones de activación.
-- **output_neurons**: Número de neuronas en la capa de salida.
-- **output_activation**: Función de activación para la capa de salida.
-- **optimizer**: Optimizador a utilizar (e.g., `adam`, `sgd`).
-- **loss**: Función de pérdida a utilizar (e.g., `mean_squared_error`).
-- **metrics**: Métricas adicionales para evaluar el modelo (e.g., `mae`, `mse`).
-- **epochs**: Número de épocas para el entrenamiento.
-- **test_size**: Porcentaje de los datos destinados a la prueba.
-- **random_state**: Semilla para la aleatorización.
+- **X**: Training input data.
+- **y**: Labels or expected outcomes.
+- **hidden_layers_config**: Configuration of the hidden layers with the number of neurons and activation functions.
+- **output_neurons**: Number of neurons in the output layer.
+- **output_activation**: Activation function for the output layer.
+- **optimizer**: Optimizer to use (e.g., `adam`, `sgd`).
+- **loss**: Loss function to use (e.g., `mean_squared_error`).
+- **metrics**: Additional metrics for model evaluation (e.g., `mae`, `mse`).
+- **epochs**: Number of training epochs.
+- **test_size**: Percentage of data allocated for testing.
+- **random_state**: Seed for randomization.
 
-### Ejemplo:
+### Example:
 
 ```python
 from StadisticsML import train_neural_network
 
-# Datos de ejemplo
+# Example data
 X = [[1], [2], [3], [4], [5]]
 y = [1.1, 2.0, 2.9, 4.0, 5.1]
 
-# Configuración de las capas ocultas: [(neuronas, función de activación)]
+# Hidden layers configuration: [(neurons, activation function)]
 hidden_layers_config = [(12, 'relu'), (8, 'relu')]
 
-# Entrenar la red neuronal
+# Train the neural network
 model, history, test_loss, predictions = train_neural_network(
     X=X, y=y, 
     hidden_layers_config=hidden_layers_config,
@@ -76,54 +76,86 @@ model, history, test_loss, predictions = train_neural_network(
     random_state=42
 )
 
-print("Predicciones:", predictions)
+print("Predictions:", predictions)
 print("Test Loss:", test_loss)
 ```
 
-### 2. **Máquina de Soporte Vectorial para Regresión (SVR)** (`train_svr`)
+### 2. **Support Vector Regression (SVR)** (`train_svr`)
 
-Esta función entrena un modelo de soporte vectorial para regresión utilizando parámetros personalizables.
+This function trains a support vector regression model using customizable parameters.
 
-- **X**: Datos de entrada para el entrenamiento.
-- **y**: Etiquetas o resultados esperados.
-- **C**: Parámetro de penalización.
-- **gamma**: Coeficiente de la función kernel.
-- **epsilon**: Margen de tolerancia.
-- **test_size**: Porcentaje de los datos destinados a la prueba.
+- **X**: Training input data.
+- **y**: Labels or expected outcomes.
+- **C**: Penalty parameter.
+- **gamma**: Kernel function coefficient.
+- **epsilon**: Tolerance margin.
+- **test_size**: Percentage of data allocated for testing.
 
-### Ejemplo:
+### Example:
 
 ```python
 from StadisticsML import train_svr
 
-# Datos de ejemplo
+# Example data
 X = [[1], [2], [3], [4], [5]]
 y = [1.1, 2.0, 2.9, 4.0, 5.1]
 
-# Entrenar el modelo SVR
+# Train the SVR model
 mse, rmse, predictions = train_svr(X=X, y=y, C=100, gamma=0.001, epsilon=0.001, test_size=0.2)
 
-print("Predicciones SVR:", predictions)
+print("SVR Predictions:", predictions)
 print("RMSE:", rmse)
 ```
 
-## Contribución
+### 3. **Cross-Validation for Model Optimization** (`cross_validate_model`)
 
-Si deseas contribuir a este proyecto, por favor sigue estos pasos:
+This function allows the user to perform cross-validation for optimizing the hyperparameters of a neural network or SVR model.
 
-1. Haz un fork del repositorio.
-2. Crea una nueva rama (`git checkout -b feature/nueva-funcionalidad`).
-3. Realiza tus cambios y haz commit de ellos (`git commit -am 'Agrega nueva funcionalidad'`).
-4. Haz push a la rama (`git push origin feature/nueva-funcionalidad`).
-5. Abre un pull request.
+- **model_type**: Choose between `'nn'` (neural network) or `'svr'` (Support Vector Regression).
+- **X**: Input data for training.
+- **y**: Expected outcomes.
+- **hyperparameters**: A dictionary of hyperparameters to tune, such as `C`, `gamma`, `epochs`, etc.
+- **cv_folds**: Number of cross-validation folds.
+- **random_state**: Seed for reproducibility.
 
-**Contribución esperada:** Implementación de más modelos de aprendizaje automático.
+### Example:
 
-## Licencia
+```python
+from StadisticsML import cross_validate_model
 
-Este proyecto está bajo la licencia **MIT**. Para más detalles, consulta el archivo [LICENSE](LICENSE).
+# Example data
+X = [[1], [2], [3], [4], [5]]
+y = [1.1, 2.0, 2.9, 4.0, 5.1]
 
-## Contacto
+# Hyperparameters to tune
+hyperparameters = {'C': [0.1, 1, 10], 'gamma': [0.001, 0.01, 0.1]}
 
-- **Autor**: Jorge Eduardo Londoño Arango
+# Perform cross-validation for SVR
+best_params, mean_score = cross_validate_model(
+    model_type='svr', X=X, y=y, hyperparameters=hyperparameters, cv_folds=5, random_state=42
+)
+
+print("Best parameters:", best_params)
+print("Mean score from cross-validation:", mean_score)
+```
+
+## Contribution
+
+If you want to contribute to this project, please follow these steps:
+
+1. Fork the repository.
+2. Create a new branch (`git checkout -b feature/new-feature`).
+3. Make your changes and commit them (`git commit -am 'Add new feature'`).
+4. Push the branch (`git push origin feature/new-feature`).
+5. Open a pull request.
+
+**Expected Contribution:** Implementation of additional machine learning models.
+
+## License
+
+This project is licensed under the **MIT** License. For more details, please refer to the [LICENSE](LICENSE) file.
+
+## Contact
+
+- **Author**: Jorge Eduardo Londoño Arango
 - **Email**: [joelondonoar@unal.edu.co](mailto:joelondonoar@unal.edu.co) - [jorge.nebulanoir@gmail.com](mailto:jorge.nebulanoir@gmail.com)

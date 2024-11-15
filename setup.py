@@ -3,7 +3,7 @@ from setuptools import find_packages, setup
 
 HERE = pathlib.Path(__file__).parent
 
-VERSION = '0.0.6'  # Cambia la versión conforme actualices la librería
+VERSION = '1.0.0'  # Cambia la versión conforme actualices la librería
 PACKAGE_NAME = 'StadisticsML'  # Asegúrate de que coincida con el nombre de la carpeta del proyecto
 AUTHOR = 'Jorge Eduardo Londoño Arango'
 AUTHOR_EMAIL = 'joelondonoar@unal.edu.co'
@@ -20,6 +20,10 @@ INSTALL_REQUIRES = [
     'scipy',
     'scikit-learn',
     'tensorflow',  # Asegúrate de incluir tensorflow si estás usando keras
+    'keras',  # Si estás usando Keras directamente
+    'matplotlib',  # Si necesitas hacer gráficos
+    'pandas',  # Si vas a usar pandas para manejar datos
+    'scikeras',
 ]
 
 setup(

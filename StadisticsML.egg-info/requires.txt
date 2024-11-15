@@ -2,3 +2,7 @@ numpy
 scipy
 scikit-learn
 tensorflow
+keras
+matplotlib
+pandas
+scikeras
